@@ -1,0 +1,235 @@
+{
+	"info": {
+		"_postman_id": "17368f39-fd03-48bb-ab76-3163835cbbd0",
+		"name": "Menuzio API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44735133",
+		"_collection_link": "https://arthurcezar.postman.co/workspace/Arthur-Cezar's-Workspace~3cea0334-4959-4627-81aa-696916148004/collection/44735133-17368f39-fd03-48bb-ab76-3163835cbbd0?action=share&source=collection_link&creator=44735133"
+	},
+	"item": [
+		{
+			"name": "POST Registro - Criar Usuário",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Usuario Teste\",\r\n    \"email\": \"teste2@example.com\",\r\n    \"senha\": \"senha123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/auth/registro",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"auth",
+						"registro"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Login - Obter Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"if (jsonData.token) {\r",
+							"    pm.environment.set(\"JWT_TOKEN\", jsonData.token);\r",
+							"    console.log(\"JWT_TOKEN salvo: \", pm.environment.get(\"JWT_TOKEN\")); // Opcional: para ver no console do Postman\r",
+							"} else {\r",
+							"    console.log(\"Token não encontrado na resposta de login.\");\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"teste2@example.com\",\r\n    \"senha\": \"senha123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/auth/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Pedidos - Listar Todos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWT_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"teste2@example.com\",\r\n    \"senha\": \"senha123\"\r\n}"
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/pedidos",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Pedidos - Gerar Aleatórios",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWT_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/pedidos/aleatorios?qtd=5",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"pedidos",
+						"aleatorios"
+					],
+					"query": [
+						{
+							"key": "qtd",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /pedidos/:id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWT_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/pedidos/685b33dc6cdfab5b3ba8ac87",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"pedidos",
+						"685b33dc6cdfab5b3ba8ac87"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Pedidos - Atualizar Status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{JWT_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"pagamento\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/pedidos/685b33de6cdfab5b3ba8ac89/status",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"pedidos",
+						"685b33de6cdfab5b3ba8ac89",
+						"status"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
